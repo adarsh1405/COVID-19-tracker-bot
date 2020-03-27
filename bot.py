@@ -4,10 +4,7 @@ from bs4 import BeautifulSoup
 
 updater=Updater("1135837651:AAHqrZnyXoG1ADS4NDBuEA2XzEC0VlUEpPE")
 
-#item="India"
-#driver=webdriver.Chrome(executable_path=r'C:\chromedriver\chromedriver.exe')
 html_doc=requests.get('https://www.worldometers.info/coronavirus/').text
-#html_doc=driver.page_source
 soup=BeautifulSoup(html_doc,'lxml')
 tag_info=soup.find_all('tbody' , class_="table table-bordered table-hover main_table_countries dataTable no-footer")
 out=[]
@@ -17,9 +14,8 @@ for trtag in soup.find_all('tr'):
 		inp.append(tdtag.text.strip())
 	out.append('|'.join(inp))
 res=out
-#print('\n'.join(res))
-#driver.quit()
 t_case=res[-1]
+top5=res[1:6]
 
 def find_country(country="India"):
 
@@ -32,7 +28,6 @@ def find_country(country="India"):
 			for j,key in enumerate(fields):
 				if res1[j]!='':
 					ret+=key+":- "+res1[j]+"\n"
-			#sen="Country:-"+res1[0]+"\n"+"Total cases:-"+res1[1]+"\n"+			"New Cases:-"+res1[2]+"\n"+"Total Deaths:-"+res1[3]+"\n"+"New Deaths:-"+res1[4]+"\n"+"Total Recover:-"+res1[5]+"\n"+"Active Cases:-"+res1[6]+"\n"+"Serious Cases:-"+res1[7]
 			return ret
 	return "No Such Country Found !!"
 
@@ -41,14 +36,18 @@ def country(bot,update):
 
 def reply(bot,update):
 	item=update.message.text
-	#print(item)
 	detail=find_country(item)
 	update.message.reply_text(detail)
+
+def top(bot,update):
+	for i in top5:
+		top=i.split("|")
+		smsg1=top[0]+"-"+top[1]+"\nNew Cases:-"+top[2]+"\nTotal Deaths:-"+top[3]+"\nTotal Recover:-"+top[4]
+		update.message.reply_text(smsg1)
 
 def grettings(bot,update):
 	update.message.reply_text("Welcome to the COVID-19 Tracker")
 	update.message.reply_text("Type /country /total inorder to get the result")
-	#print("Call request")
 	
 
 def total(bot,update):
@@ -58,12 +57,17 @@ def total(bot,update):
 	#print(smsg)
 
 
+
+
 def main():
 	dispatcher=updater.dispatcher
 	dispatcher.add_handler(CommandHandler("start",grettings))
 	dispatcher.add_handler(CommandHandler("country", country))
 	dispatcher.add_handler(CommandHandler("total", total))
+	dispatcher.add_handler(CommandHandler("top",top))
 	dispatcher.add_handler(MessageHandler(Filters.text, reply))
+	
+	
 	updater.start_polling()
 	updater.idle()
 
