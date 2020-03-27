@@ -16,6 +16,7 @@ for trtag in soup.find_all('tr'):
 res=out
 t_case=res[-1]
 top5=res[1:6]
+symp="1.Fever\n2.Tiredness\n3.Cough\n4.Difficulty in breathing\n5.In severe cases, it can cause pneumonia and respiratory failure sometimes leading to death"
 
 def find_country(country="India"):
 
@@ -56,7 +57,8 @@ def total(bot,update):
 	update.message.reply_text(smsg)
 	#print(smsg)
 
-
+def symptoms(bot,update):
+	update.message.reply_text(symp)
 
 
 def main():
@@ -65,6 +67,7 @@ def main():
 	dispatcher.add_handler(CommandHandler("country", country))
 	dispatcher.add_handler(CommandHandler("total", total))
 	dispatcher.add_handler(CommandHandler("top",top))
+	dispatcher.add_handler(CommandHandler("symptoms",symptoms))
 	dispatcher.add_handler(MessageHandler(Filters.text, reply))
 	
 	
