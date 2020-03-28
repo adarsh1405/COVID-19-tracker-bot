@@ -17,6 +17,13 @@ res=out
 t_case=res[-1]
 top5=res[1:6]
 symp="1.Fever\n2.Tiredness\n3.Cough\n4.Difficulty in breathing\n5.In severe cases, it can cause pneumonia and respiratory failure sometimes leading to death"
+prevn1="1.Maintain personal hygiene, hand washing, avoiding touching the eyes, nose or mouth with unwashed hands, coughing/sneezing into a tissue and putting the tissue directly into a dustbin.\n 2.Those who may already have the infection have been advised to wear a surgical mask in public."
+prevn2="3.Physical distancing\nwhich includes infection control actions intended to slow the spread of disease by minimizing close contact between individuals."
+prevn3="4.Self-isolation\nThose who may have been exposed to someone with COVID-19 and those who have recently travelled to a country with widespread transmission have been advised to self-quarantine for 14 days from the time of last possible exposure"
+prevn=prevn1+prevn2+prevn3;
+rule1="/start - sends a welcome message and link to the APP\n /country - to know the country present situation\n /total - to know the stats of total world "
+rule2="/top - gives data of top 5 countries affected\n /symptoms - to know about the symptoms\n /tips - see to get aware"
+rule=rule1+rule2
 
 def find_country(country="India"):
 
@@ -48,7 +55,7 @@ def top(bot,update):
 
 def grettings(bot,update):
 	update.message.reply_text("Welcome to the COVID-19 Tracker")
-	update.message.reply_text("Type /country /total inorder to get the result")
+	update.message.reply_text("GO TO https://tiny.cc/covid-19india to download the App")
 	
 
 def total(bot,update):
@@ -60,6 +67,12 @@ def total(bot,update):
 def symptoms(bot,update):
 	update.message.reply_text(symp)
 
+def tips(bot,update):
+	update.message.reply_text(prevn)
+
+def rules(bot,update):
+	upda.message.reply_text(rule)
+
 
 def main():
 	dispatcher=updater.dispatcher
@@ -68,6 +81,8 @@ def main():
 	dispatcher.add_handler(CommandHandler("total", total))
 	dispatcher.add_handler(CommandHandler("top",top))
 	dispatcher.add_handler(CommandHandler("symptoms",symptoms))
+	dispatcher.add_handler(CommandHandler("tips",prevn))
+	dispatcher.add_handler(CommandHandler("rules",rules))
 	dispatcher.add_handler(MessageHandler(Filters.text, reply))
 	
 	
