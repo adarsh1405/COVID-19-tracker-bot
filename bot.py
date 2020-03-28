@@ -1,8 +1,9 @@
 from telegram.ext import Updater,MessageHandler,Filters,CommandHandler
 import requests
 from bs4 import BeautifulSoup
+import telegram
 
-updater=Updater("1135837651:AAHqrZnyXoG1ADS4NDBuEA2XzEC0VlUEpPE")
+updater=Updater("1135837651:AAENT6dYyC8E2y6B5NPOjf-Fsmn9RslNTrU")
 
 html_doc=requests.get('https://www.worldometers.info/coronavirus/').text
 soup=BeautifulSoup(html_doc,'lxml')
@@ -17,14 +18,14 @@ res=out
 t_case=res[-1]
 top5=res[1:6]
 symp="1.Fever\n2.Tiredness\n3.Cough\n4.Difficulty in breathing\n5.In severe cases, it can cause pneumonia and respiratory failure sometimes leading to death"
-prevn1="1.Maintain personal hygiene, hand washing, avoiding touching the eyes, nose or mouth with unwashed hands, coughing/sneezing into a tissue and putting the tissue directly into a dustbin.\n 2.Those who may already have the infection have been advised to wear a surgical mask in public."
+prevn1="1.Maintain personal hygiene, hand washing, avoiding touching the eyes, nose or mouth with unwashed hands, coughing/sneezing into a tissue and putting the tissue directly into a dustbin.\n 2.Those who may already have the infection have been advised to wear a surgical mask in public.\n"
 prevn2="3.Physical distancing\nwhich includes infection control actions intended to slow the spread of disease by minimizing close contact between individuals."
-prevn3="4.Self-isolation\nThose who may have been exposed to someone with COVID-19 and those who have recently travelled to a country with widespread transmission have been advised to self-quarantine for 14 days from the time of last possible exposure"
+prevn3="\n4.Self-isolation\nThose who may have been exposed to someone with COVID-19 and those who have recently travelled to a country with widespread transmission have been advised to self-quarantine for 14 days from the time of last possible exposure"
 prevn=prevn1+prevn2+prevn3;
 rule1="/start - sends a welcome message and link to the APP\n /country - to know the country present situation\n /total - to know the stats of total world "
 rule2="/top - gives data of top 5 countries affected\n /symptoms - to know about the symptoms\n /tips - see to get aware"
 rule=rule1+rule2
-
+imgsrc="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Covid-19-Transmission-graphic-01.gif/1024px-Covid-19-Transmission-graphic-01.gif"
 def find_country(country="India"):
 
 	fields={"Country":None,"Total cases":None,"New Cases":None,"Total Deaths":None,"New Deaths":None,"Total Recover":None,"Active Cases":None,"Serious Cases":None}
@@ -70,8 +71,9 @@ def symptoms(bot,update):
 def tips(bot,update):
 	update.message.reply_text(prevn)
 
+
 def rules(bot,update):
-	upda.message.reply_text(rule)
+	update.message.reply_text(rule)
 
 
 def main():
@@ -81,7 +83,7 @@ def main():
 	dispatcher.add_handler(CommandHandler("total", total))
 	dispatcher.add_handler(CommandHandler("top",top))
 	dispatcher.add_handler(CommandHandler("symptoms",symptoms))
-	dispatcher.add_handler(CommandHandler("tips",prevn))
+	dispatcher.add_handler(CommandHandler("tips",tips))
 	dispatcher.add_handler(CommandHandler("rules",rules))
 	dispatcher.add_handler(MessageHandler(Filters.text, reply))
 	
