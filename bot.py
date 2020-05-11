@@ -15,8 +15,9 @@ for trtag in soup.find_all('tr'):
 		inp.append(tdtag.text.strip())
 	out.append('|'.join(inp))
 res=out
-t_case=res[-1]
-top5=res[1:6]
+print(res)
+t_case=res[8]
+top5=res[9:15]
 symp="1.Fever\n2.Tiredness\n3.Cough\n4.Difficulty in breathing\n5.In severe cases, it can cause pneumonia and respiratory failure sometimes leading to death"
 prevn1="1.Maintain personal hygiene, hand washing, avoiding touching the eyes, nose or mouth with unwashed hands, coughing/sneezing into a tissue and putting the tissue directly into a dustbin.\n 2.Those who may already have the infection have been advised to wear a surgical mask in public.\n"
 prevn2="3.Physical distancing\nwhich includes infection control actions intended to slow the spread of disease by minimizing close contact between individuals."
